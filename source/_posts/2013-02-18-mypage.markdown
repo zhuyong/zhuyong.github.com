@@ -1,7 +1,9 @@
----
+﻿---
 layout: post
-title: "github setup octopress"
+title: "在github上搭建octopress"
 date: 2013-02-18 23:44
 comments: true
 categories: 
+
+<!--More-->
 ---

@@ -1,7 +1,18 @@
 ---
 layout: post
-title: "中文title"
+title: "在github上搭建octopress"
 date: 2013-02-23 09:51
 comments: true
-categories: 
+categories: octopress
 ---
+今天突然想到上学时老师常教诲我们:好记性不如烂笔头。再则，年纪大了，记性差，不服老不行啊。
+这一说，其实博客前几天就搭了，碰上工作忙，那又被搁置了。我要摒弃这个恶习，哈哈。
+
+先占个地，慢慢补充。
+#####问题排查
+- smartGit乱码问题.post保存为UTF-8 without BOM
+#####TODO
+- 完整的搭建过程（网上有很多，但是还是比较零散，搭建时也查了不少文章，遇到问题总是要放狗）
+- 换一个主题.就slash吧，简洁明了,
+- 加tag,
+- 加评论等...

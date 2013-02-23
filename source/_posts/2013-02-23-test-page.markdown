@@ -1,0 +1,7 @@
+---
+layout: post
+title: "中文title"
+date: 2013-02-23 09:51
+comments: true
+categories: 
+---

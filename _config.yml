@@ -99,5 +99,6 @@ google_analytics_tracking_id:
 facebook_like: false
 
 # Duoshuo Comments
-duoshuo_comments: true
+#duoshuo_comments: true
+duoshuo_show_comment_count: true
 duoshuo_short_name: KeepMoving

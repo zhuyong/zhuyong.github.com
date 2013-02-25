@@ -14,11 +14,10 @@ categories: octopress
 ```
 3.修改source/_layouts/page.html  
 在disqus模块代码下追加duoshuo模块，代码如下：
-```
-代码有点问题，待更正
-```
-4.修改source/_layouts/post.html中也做如上的修改   
-5.按路径创建文件:source/_includes/post/duoshuo.html,代码如下（也就是多说网，配置站点后生成的代码）    
+![code in page.html](/images/myImages/duoshuo_code.PNG)
+<!--More-->
+4.修改source/\_layouts/post.html中也做如上的修改   
+5.按路径创建文件:source/\_includes/post/duoshuo.html,代码如下（也就是多说网，配置站点后生成的代码）    
 注意:short_name已用变量替换：  
 ```
 <!-- Duoshuo Comment BEGIN -->  
@@ -38,9 +37,6 @@ categories: octopress
 ```
 
 6.修改 _includes/article.html 文件，在末尾disqus评论代码下添加duoshuo评论,代码如下：  
-```
-{% if site.duoshuo_short_name and page.comments != false and post.comments != false and site.duoshuo_show_comment_count == true %}  
-	<div class="comments"><a href="{% if index %}{{ root_url }}{{ post.url }}{% endif %}#comments">Comments</a></div>
-{% endif %}
-```
+![code in article.html](/images/myImages/duoshuo_code2.PNG)
+
 OK,收工。

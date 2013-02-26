@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "增加多说评论"
+title: "为octopress增加多说评论"
 date: 2013-02-23 14:30
 comments: true
 categories: octopress

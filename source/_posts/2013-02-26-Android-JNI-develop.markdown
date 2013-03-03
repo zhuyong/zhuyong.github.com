@@ -3,7 +3,7 @@ layout: post
 title: "搭建Android JNI开发环境"
 date: 2013-02-26 17:03
 comments: true
-categories: Develop Envirement
+categories: Android Envirement
 ---
 每次出差都要在借过来的笔记本搭个环境，甚是麻烦~我懒......  
 ##### 内容:

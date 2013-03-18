@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "HongKong Man"
-date: 2013-03-19 00:20
+date: 2013-03-18 23:50
 comments: true
 categories: life korea
 ---  

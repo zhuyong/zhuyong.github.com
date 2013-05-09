@@ -3,7 +3,7 @@ layout: post
 title: "学习笔记:Android组件之Activity"
 date: 2013-05-09 17:30
 comments: true
-categories: 读书笔记 Android  
+categories: reading Android  
 ---
 电子书:[Android开发权威指南].李宁.扫描版  
 

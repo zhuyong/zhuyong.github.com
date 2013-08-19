@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>TCP/IP协议（1）-概要 | KeepMoving</title>
+  <meta name="author" content="Yong">
+
+  
+  <meta name="description" content="协议、标准
+协议：一组控制数据通信的规则. 
+协议的三要素：语法 syntax、语义 semantics、时序 Timing 
+标准： 一致同意的规则
+标准的种类：  
+事实上的标准de-factor   --- 实际或习惯
+合法标准 de-jury        --- 法律、法规
+OSI模型和TCP/IP协议族
+
+OSI参考模型
+OSI模型的层次功能
+TCP/IP协议族
+编址
+TCP/IP的版本">
+  
+  
+
+  <link rel="alternate" href="/atom.xml" title="KeepMoving" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  
+</head>
+
+<body>
+  <header id="header" class="inner"><nav>
+  <ul>
+    
+      <li><a href="/">Home</a></li>
+    
+      <li><a href="/archives">Archives</a></li>
+    
+  </ul>
+</nav></header>
+  <div id="content" class="inner"><article class="post">
+  
+  <header>
+    
+  
+    <h1 class="title">TCP/IP协议（1）-概要</h1>
+  
+
+    <time datetime="2013-08-19T16:28:45.000Z">
+  <span class="day">20</span><span class="month">8月</span>
+</time>
+  </header>
+  <div class="entry-content">
+    
+      <h4>协议、标准</h4>
+<p><strong>协议</strong>：一组控制数据通信的规则. </p>
+<p>协议的三要素：语法 syntax、语义 semantics、时序 Timing </p>
+<p><strong>标准</strong>： 一致同意的规则</p>
+<p>标准的种类：  </p>
+<p>事实上的标准de-factor   --- 实际或习惯</p>
+<p>合法标准 de-jury        --- 法律、法规</p>
+<h4>OSI模型和TCP/IP协议族</h4>
+<ul>
+<li>OSI参考模型</li>
+<li>OSI模型的层次功能</li>
+<li>TCP/IP协议族</li>
+<li>编址</li>
+<li>TCP/IP的版本<a name="more"></a>
+
+</li>
+</ul>
+<h5>ISO标准</h5>
+<p>Open System Interconnection,开放系统互连 
+Reference Model,<strong>参考模型</strong></p>
+<p>目的：使两个不同的系统能够通信，不需要改变底层的硬件或软件逻辑。  </p>
+<p>ISO是一个组织，OSI是一个模型。 
+OSI不是协议，是网络体系结构的<strong>概念模型</strong>。 </p>
+<h5>OSI层次体系结构(7层)</h5>
+<p>应用支持层(软件): Application、Presentation、Session、 
+Transport、 
+网络支持层（软/硬件）Network、Data Link、Physical；</p>
+<h5>对等层通信（Peer-to-Peer Communication）</h5>
+<p><strong>服务</strong>：下层（提供者）提供给上层（使用者）的操作(功能)。
+注：服务只能存在于相邻层之间。</p>
+<p><strong>接口</strong>：相邻层之间通过接口进行交换操作。 </p>
+<p><strong>对等层（peer-layer）</strong></p>
+<p><strong>对等实体</strong>：在不同系统上，同一层的实体. </p>
+<p><strong>对等层协议（Peer-to-Peer Protocol）</strong>: 对等层之间通信的规则。</p>
+<p>每一层可以同时存在多个实体。
+--&gt;  存在通信关系的对等层实体才是对等实体。</p>
+<p>每一层可以同时存在多个协议。 
+--&gt; 协议是对等实体间的通信规则。 </p>
+<h5>数据通信-封装</h5>
+<p><strong>PDU</strong>：Protocol Data Unit,协议数据单元</p>
+<p>数据链路层之上，下层数据总是将上层数据+文件头，而数据链路层，不光增加了头部，还增加了尾部，因为物理层传输可能存在差错，所以需要进行校验。</p>
+<p>对等层的PDU的专有名词： </p>
+<p><strong>帧（Frame）</strong>      -  数据链路层的PDU </p>
+<p><strong>分组（Packet）</strong>   -  网络层的PDU </p>
+<p><strong>段（Segement）</strong>   - 传输层的PDU </p>
+<p><strong>数据（Data）</strong>     - 应用层的PDU </p>
+<p><strong>比特流</strong>           - 物理层</p>
+<h5>OSI模型的层次功能</h5>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre>Application: Network processes <span class="keyword">to</span> applications. 
+Presentation: Data representation. 
+Session: Inter-host communication. 
+<span class="keyword">Transport</span>: <span class="keyword">End</span>-<span class="keyword">to</span>-<span class="keyword">end</span> connection. 
+Network: Addressing <span class="keyword">and</span> best path. 
+Data Link: <span class="keyword">Access</span> <span class="keyword">to</span> media. 
+Physical: Binary transmission.
+</pre></td></tr></table></figure>
+
+
+    
+    
+    <footer class="meta">
+      
+      
+  <div class="tags">
+<a href="/tags/tcpip-1/">tcp/ip</a></div>
+
+      
+    </footer>
+    
+  </div>
+  
+</article></div>
+  <footer id="footer" class="inner"><div class="social alignright">
+  
+  
+  
+  
+  <a class="rss" href="/atom.xml" title="RSS">RSS</a>
+</div>
+<p>
+  
+  &copy; 2013 Yong
+  
+</p>
+<div class="clearfix"></div></footer>
+  <script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+<div id="phasebeam">
+  <canvas></canvas>
+  <canvas></canvas>
+  <canvas></canvas>
+</div>
+<script src="/js/phasebeam.js"></script>
+</body>
+</html>

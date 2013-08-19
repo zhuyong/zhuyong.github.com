@@ -5,7 +5,7 @@ tags: hexo
 从Octopress 换到Hexo，确实速度提升不少。 
 #### 关于Hexo
 http://zespia.tw/hexo/
-<!--More--> 
+<!--more--> 
 #### 遇到的几个问题： 
 #### Issues 
 [Issue List](https://github.com/tommy351/hexo/issues?direction=asc&sort=long-running&state=closed "issues")  

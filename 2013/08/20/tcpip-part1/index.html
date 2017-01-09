@@ -1,0 +1,89 @@
+<html>
+<head>
+	
+	<title>TCP/IP协议（1）-概要</title>
+	<meta name="keywords" content="My Blog!" />
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+    <!--<link rel="stylesheet" href="/css/main.css">-->
+	<link href="/css/main.css?v=2" rel="stylesheet" type="text/css" />
+    <!--<link rel="stylesheet" href="/css/style.css">-->
+    
+
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+
+    
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2"/>
+    
+
+</head>
+
+<body>
+
+<p>####协议、标准<br><strong>协议</strong>：一组控制数据通信的规则. </p>
+<p>协议的三要素：语法 syntax、语义 semantics、时序 Timing </p>
+<p><strong>标准</strong>： 一致同意的规则</p>
+<p>标准的种类：  </p>
+<p>事实上的标准de-factor   — 实际或习惯</p>
+<p>合法标准 de-jury        — 法律、法规</p>
+<p>####OSI模型和TCP/IP协议族</p>
+<ul>
+<li>OSI参考模型</li>
+<li>OSI模型的层次功能</li>
+<li>TCP/IP协议族</li>
+<li>编址</li>
+<li>TCP/IP的版本<a id="more"></a>
+</li>
+</ul>
+<p>#####ISO标准<br>Open System Interconnection,开放系统互连<br>Reference Model,<strong>参考模型</strong></p>
+<p>目的：使两个不同的系统能够通信，不需要改变底层的硬件或软件逻辑。  </p>
+<p>ISO是一个组织，OSI是一个模型。<br>OSI不是协议，是网络体系结构的<strong>概念模型</strong>。 </p>
+<p>#####OSI层次体系结构(7层)<br>应用支持层(软件): Application、Presentation、Session、<br>Transport、<br>网络支持层（软/硬件）Network、Data Link、Physical；</p>
+<p>#####对等层通信（Peer-to-Peer Communication）<br><strong>服务</strong>：下层（提供者）提供给上层（使用者）的操作(功能)。<br>注：服务只能存在于相邻层之间。</p>
+<p><strong>接口</strong>：相邻层之间通过接口进行交换操作。 </p>
+<p><strong>对等层（peer-layer）</strong></p>
+<p><strong>对等实体</strong>：在不同系统上，同一层的实体. </p>
+<p><strong>对等层协议（Peer-to-Peer Protocol）</strong>: 对等层之间通信的规则。</p>
+<p>每一层可以同时存在多个实体。<br>–&gt;  存在通信关系的对等层实体才是对等实体。</p>
+<p>每一层可以同时存在多个协议。<br>–&gt; 协议是对等实体间的通信规则。 </p>
+<p>#####数据通信-封装<br><strong>PDU</strong>：Protocol Data Unit,协议数据单元</p>
+<p>数据链路层之上，下层数据总是将上层数据+文件头，而数据链路层，不光增加了头部，还增加了尾部，因为物理层传输可能存在差错，所以需要进行校验。</p>
+<p>对等层的PDU的专有名词： </p>
+<p><strong>帧（Frame）</strong>      -  数据链路层的PDU </p>
+<p><strong>分组（Packet）</strong>   -  网络层的PDU </p>
+<p><strong>段（Segement）</strong>   - 传输层的PDU </p>
+<p><strong>数据（Data）</strong>     - 应用层的PDU </p>
+<p><strong>比特流</strong>           - 物理层</p>
+<p>#####OSI模型的层次功能<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Application: Network processes to applications. </div><div class="line">Presentation: Data representation. </div><div class="line">Session: Inter-host communication. </div><div class="line">Transport: End-to-end connection. </div><div class="line">Network: Addressing and best path. </div><div class="line">Data Link: Access to media. </div><div class="line">Physical: Binary transmission.</div></pre></td></tr></table></figure></p>
+
+
+<!--<a href="http://zhuyong.github.com/2013/08/20/tcpip-part1/#disqus_thread" class="article-comment-link">Comments</a>-->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'null'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

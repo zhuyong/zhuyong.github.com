@@ -1,0 +1,97 @@
+<html>
+<head>
+	
+	<title>java socket编程-多任务处理</title>
+	<meta name="keywords" content="My Blog!" />
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    
+    <!--<link rel="stylesheet" href="/css/main.css">-->
+	<link href="/css/main.css?v=2" rel="stylesheet" type="text/css" />
+    <!--<link rel="stylesheet" href="/css/style.css">-->
+    
+
+    <link rel="alternate" type="application/atom+xml" href="/atom.xml" title="Atom feed">
+
+    
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=2"/>
+    
+
+</head>
+
+<body>
+
+<p>####多任务处理</p>
+<ul>
+<li>一客户一线程 （thread-per-client）-</li>
+<li>线程池（thread-pool）</li>
+<li>多接收者（广播、多播）<a id="more"></a>
+#####Java多线程<br>1) 继承 Thread 类，只适用于没有继承其他类的类； </li>
+</ul>
+<p>2) 实现Runnable接口的类;</p>
+<p>注：新线程创建后并不立即执行，而是等到其start()方法被调用。<br>    当Thread对象的start()方法被调用时，Java虚拟机将一个新的线程中执行对象的run()方法，从而实现与其他任务并行执行。 </p>
+<p>#####一客户一线程 </p>
+<p>#####线程池<br>每个新线程都会消耗系统资源：创建一个线程将占用CPU周期，而且每个线程都有自己的数据结构，也要消耗系统内存。</p>
+<p>使用线程池，通过限制总线程数并重复使用线程可以避免上面的问题。与每个连接创建一个新的线程不同，服务器在启动时创建一个由固定数量组成的线程池。 </p>
+<p>系统管理调用：Executor接口 </p>
+<p>ExecutorService接口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Executor service = Executors.newFixedThreadPool(threadPoolSize);</div><div class="line">Executor service = Executors.newSingleThreadExecutor();</div></pre></td></tr></table></figure>
+<p>#####阻塞和超时<br>Socket的I/O调用可能会因为多种原因而阻塞。</p>
+<p>调用一个已经阻塞的方法将使应用程序停止（并使运行它的线程无效）。<br>1.accetp(), read() 和receiver()<br>  对于这些方法，可以使用Socket类、ServerSocket类和DatagramSocket类的 setSoTimeout()方法，设置器阻塞的最长时间（毫秒）。<br>  对于Socket实例，在调用read()方法前，还可以使用该套接字的InputStream的avaiable()方法来检测是否有可读的数据。 </p>
+<p>2.连接和写数据</p>
+<p>Socket类的构造函数会尝试根据参数中指定的主机和端口来建立连接，并阻塞等待，直到连接成功建立或发生系统定义的超时。<br>  而系统定义的超时时间很长，Java又没有提供任何缩短它的方法。</p>
+<p> <strong>解决办法</strong>：</p>
+<p>使用Socket类的无参数构造函数，它返回的是一个没有建立连接的Socket实例，需要建立连接时，调用该实例的connect()方法，并指定一个远程终端盒超时时间（毫秒）.</p>
+<p>  write()方法 调用也会阻塞等待，直到最后一个字节成功写入到TCP实现的本地缓存中。 </p>
+<p>#####多接收者<br>以单播（unicast）的方式发送信息给多个接收者，效率可能非常低，因为同样的数据发送了多次，在一个网络连接上单播同一数据的多个副本非常浪费带宽。<br>实际上，如果以固定频率发送数据，网络连接带宽就已经限制了其锁支持的接收者数量。<br>例如：如果视频服务器以1Mbps的速率发送数据流，而其网络连接速率是3Mbps（良好的连接速率），那么该连接最多只能同时支持3个用户。</p>
+<p>网络本身提供了一个更有效使用带宽的方法，将复制数据包的工作交个网络来做，而不是发送者负责。</p>
+<p><strong>广播（broadcast）</strong>、<strong>多播(multicast)</strong>。</p>
+<p>#####多播<br>IPv4多播地址范围：224.0.0.0 ~ 239.255.255.255 </p>
+<p>Java中多播应用程序主要是通过MulticastSock实例进行通信，它是一个DatagramSocket的一个子类。<br>重点需要理解的是，一个MulticastSocket实例实际上就是一个UDP套接字（DatagramSocket），其包含了一些额外的可以控制的多播特定属性。 </p>
+<p>多播数据报文实际上可以通过DatagramSocket中发送，只需要简单地指定一个多播地址。 </p>
+<p>不过MuiltcastSocket还有一些DatagramSocket没有的能力： </p>
+<p>（1）允许指定数据报文的TTL</p>
+<p>（2）允许指定和改变通过哪个接口将数据报文发送到组（接口由其互联网地址确定）。</p>
+<p>注：一个多播消息接收者必须使用MulticastSocket来接收数据，因为它需要用到MulticastSocket加入组的功能。 </p>
+<p>MulticastSocket 创建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MulticastSocket()</div><div class="line">MulticastSocket(int localPort)</div><div class="line">MulticastSocket(SocketAddress bindaddr)</div></pre></td></tr></table></figure></p>
+<p>MulitcastSocket 组管理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">void joinGroup(InetAddress groupAddress);</div><div class="line">void joinGroup(SocketAddress mcastaddr, NetworkInterface netIf);</div><div class="line">void leaveGroup(InetAddress groupAddress);</div><div class="line">void leaveGroup(SocketAddress mcastaddr,NetworkInterface netIf);</div></pre></td></tr></table></figure></p>
+<p>MulticastSocket 设置/获取多播选项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">int getTimeToLive()</div><div class="line">void setTimeToLive(int ttl)</div><div class="line">boolean getLoopbackMode()</div><div class="line">void setLoopbackMode(boolean disable)</div><div class="line">InetAddress getInterface()</div><div class="line">NetworkInterface getNetworkInterface()</div><div class="line">void setInterface(InetAddress inf)</div><div class="line">void setNetworkInterface(NetworkInterface netIf)</div></pre></td></tr></table></figure></p>
+<p>#####控制默认行为<br>TCP/IP协议的开发者用了大量的时间来考虑协议的默认行为，以满足大部分应用程序的需要。对于大多数应用程序来说，这些设计都非常适合。<br>如默认情况下，DatagramSocket类的receive()方法将无限期地阻塞等待一个数据报文，某些情况下，并不希望这样，所以，可同通过UDP套接字提供的接口改变协议的默认行为，如设置超时时间:setSoTimeout();</p>
+<p>######Keep-Alive<br>默认情况下，keep-alive机制是关闭的，通过setKeepAlive()方法将其设置为true来开启keep-alive机制。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">boolean getKeepAlive();</div><div class="line">void setKeepAlive(boolean on);</div></pre></td></tr></table></figure></p>
+<p>#####发送和接收缓存区的大小<br>一旦创建了一个Socket或DatagramSocket实例，操作系统就必须为其分配缓存区以存放接收的和要发送的数据。<br>Socket,DatagramSocket: 设置和获取发送接收缓存区大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int getReceiveBufferSize();</div><div class="line">void setReceiveBufferSize(int size);</div><div class="line">int getSendBufferSize();</div><div class="line">void setSendBufferSize(int size);</div></pre></td></tr></table></figure></p>
+<p>Socket,ServerSocket,DatagramSocket： 设置/获取I/O超时时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int getSoTimeout();</div><div class="line">void setSoTimeout(int timeout);</div></pre></td></tr></table></figure></p>
+<p>Socket,ServerSocket,DatagramSocket: 设置/获取地址重用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">boolean getReuseAddress()</div><div class="line">void setReuseAddress(boolean on);</div></pre></td></tr></table></figure></p>
+<p>Socket: 设置/获取TCP缓冲延迟<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">boolean getTCPNoDelay();</div><div class="line">void setTcpNoDelay(boolean on);</div></pre></td></tr></table></figure></p>
+<p>Socket:在close()方法停留<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int getSoLinger();</div><div class="line">void setSoLinger(boolean on, int linger);</div></pre></td></tr></table></figure></p>
+<p>#####Reference<br>1.Java TCP/IP Socket编程</p>
+
+
+<!--<a href="http://zhuyong.github.com/2013/08/22/java-socket-part_3/#disqus_thread" class="article-comment-link">Comments</a>-->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'null'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<div style="display:none">
+<script src="http://s4.cnzz.com/stat.php?id=undefined&web_id=undefined" language="JavaScript"></script>script>
+</div>
+
+
+
+
+
+
+
+</body>
+</html>

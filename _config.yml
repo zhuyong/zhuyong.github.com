@@ -8,7 +8,7 @@ subtitle:
 description:
 author: Yong
 email:
-language: zh-CN
+language: zh-cn
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -71,12 +71,23 @@ disqus_shortname:
 # Extensions
 ## Plugins: https://github.com/tommy351/hexo/wiki/Plugins
 ## Themes: https://github.com/tommy351/hexo/wiki/Themes
-theme: yinwang
+theme: tranquilpeak
 exclude_generator:
+
+#feed
+feed:
+    type: atom
+    path: atom.xml
+    limit: 20
+
+#keywords
+keywords:
+- hexo
+- javascript
 
 # Deployment
 ## Docs: http://zespia.tw/hexo/docs/deploy.html
 deploy:
-	type: github
-	repository: git@github.com:zhuyong/zhuyong.github.com.git
+	type: git
+	repository: https://github.com/zhuyong/zhuyong.github.com.git
 	branch: master

@@ -1,8 +1,14 @@
 title: about hexo
 date: 2013-08-18 17:10:48
 tags: hexo
+thumbnailImagePosition: right
+autoThumbnailImage: yes
+thumbnailImage: http://www.dev-metal.com/wp-content/uploads/2013/11/Octocat-800x605.png
+gallery:
+    - http://image.lxway.com/upload/3/22/322ecfea11e750a7caadf37c3842e283_thumb.png "hexo-github"
 ---
 从Octopress 换到Hexo，确实速度提升不少。 
+
 #### 关于Hexo
 http://zespia.tw/hexo/
 <!--more--> 
@@ -29,3 +35,8 @@ deploy:
     repository: https://github.com/zhuyong/log.git 
     branch: gh-pages
 ```
+####autoThumbnailImage Test
+![](http://image.lxway.com/upload/3/22/322ecfea11e750a7caadf37c3842e283_thumb.png)
+
+####Gallery Test
+

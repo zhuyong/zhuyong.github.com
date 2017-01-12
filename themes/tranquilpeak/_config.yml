@@ -62,10 +62,10 @@ sidebar:
              title: global.github
              url: https://github.com/zhuyong
              icon: github
-        # stack_overflow:
-        #     title: global.stack_overflow
-        #     url: http://stackoverflow.com/users
-        #     icon: stack-overflow
+         stack_overflow:
+             title: global.stack_overflow
+             url: http://stackoverflow.com/users/7402421/macroz
+             icon: stack-overflow
         # twitter:
         #     title: global.twitter
         #     url: https://twitter.com/
@@ -112,13 +112,13 @@ header:
 # Author
 # Your biography and your job is editable in each languages files in `languages` folder
 author:
-    email:
-    location:
+    email: zhuyong.mvp@gmail.com
+    location: Nanjing
     # Your profile picture located in folder `source/_images/` (development)
     # or in `source/assets/images/` (production)
     # or you can use an external url
     # Overwritten by your gravatar image if `gravatar_email` is filled
-    picture:
+    picture: https://avatars1.githubusercontent.com/u/3369404?v=3&s=460
     # Your Twitter username without the @. E.g : `tranquilpeak`
     twitter:
     # Your personal google plus profile id, not your blog or business page id.

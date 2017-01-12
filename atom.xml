@@ -310,7 +310,7 @@ public static void main(String[] args) {
     <link href="http://zhuyong.github.com/2013/08/18/about-hexo/"/>
     <id>http://zhuyong.github.com/2013/08/18/about-hexo/</id>
     <published>2013-08-18T09:10:48.000Z</published>
-    <updated>2017-01-11T16:25:26.811Z</updated>
+    <updated>2017-01-12T19:03:27.460Z</updated>
     
     <content type="html"><![CDATA[<p>从Octopress 换到Hexo，确实速度提升不少。 </p>
 <h4 id="关于Hexo"><a href="#关于Hexo" class="headerlink" title="关于Hexo"></a>关于Hexo</h4><p><a href="http://zespia.tw/hexo/" target="_blank" rel="external">http://zespia.tw/hexo/</a><br><a id="more"></a> </p>
@@ -326,7 +326,8 @@ public static void main(String[] args) {
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">fatoal:Not a git repository &lt;or any of the parent directories&gt;: .git</div><div class="line">&gt;&gt;要加缩进，Tab</div><div class="line">deploy:</div><div class="line">    type: github</div><div class="line">    repository: https://github.com/zhuyong/log.git </div><div class="line">    branch: gh-pages</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="http://image.lxway.com/upload/3/22/322ecfea11e750a7caadf37c3842e283_thumb.png" alt=""></p>
+<p>####autoThumbnailImage Test<br><img src="http://image.lxway.com/upload/3/22/322ecfea11e750a7caadf37c3842e283_thumb.png" alt=""></p>
+<p>####Gallery Test</p>
 ]]></content>
     
     <summary type="html">

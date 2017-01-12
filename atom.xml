@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhuyong.github.com/"/>
-  <updated>2017-01-12T19:12:55.288Z</updated>
+  <updated>2017-01-09T18:22:34.390Z</updated>
   <id>http://zhuyong.github.com/</id>
   
   <author>
@@ -14,29 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>TestPage</title>
-    <link href="http://zhuyong.github.com/2017/01/13/TestPage/"/>
-    <id>http://zhuyong.github.com/2017/01/13/TestPage/</id>
-    <published>2017-01-12T19:05:28.000Z</published>
-    <updated>2017-01-12T19:12:55.288Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="just-test"><a href="#just-test" class="headerlink" title="just test"></a>just test</h3><p>####数据的发送和接收<br>TCP/IP协议是以字节的方式传输用户数据的，并没有对其进行检查和修改。<br>TCP/IP协议唯一约束的是，信息必须在块（chunks）中发送和接收，而块的长度必须是8的倍数，因此，我们可以认为在TCP/IP协议中传输的信息是字节序列。<br>鉴于此，我们可以进一步把信息看作是数字序列或数组，每个数字表示的大小是0~255，即00000000~11111111。</p>
-<p>whatdadfafadfa</p>
-<p><img src="http://image.lxway.com/upload/3/22/322ecfea11e750a7caadf37c3842e283_thumb.png" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;just-test&quot;&gt;&lt;a href=&quot;#just-test&quot; class=&quot;headerlink&quot; title=&quot;just test&quot;&gt;&lt;/a&gt;just test&lt;/h3&gt;&lt;p&gt;####数据的发送和接收&lt;br&gt;TCP/IP协议是以字节的方式传输用户数据的，并没有
-    
-    </summary>
-    
-    
-      <category term="test" scheme="http://zhuyong.github.com/tags/test/"/>
-    
-  </entry>
   
   <entry>
     <title>java socket编程-多任务处理</title>
@@ -333,7 +310,7 @@ public static void main(String[] args) {
     <link href="http://zhuyong.github.com/2013/08/18/about-hexo/"/>
     <id>http://zhuyong.github.com/2013/08/18/about-hexo/</id>
     <published>2013-08-18T09:10:48.000Z</published>
-    <updated>2017-01-12T19:18:32.468Z</updated>
+    <updated>2017-01-12T19:23:58.144Z</updated>
     
     <content type="html"><![CDATA[<p>从Octopress 换到Hexo，确实速度提升不少。 </p>
 <h4 id="关于Hexo"><a href="#关于Hexo" class="headerlink" title="关于Hexo"></a>关于Hexo</h4><p><a href="http://zespia.tw/hexo/" target="_blank" rel="external">http://zespia.tw/hexo/</a><br><a id="more"></a> </p>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhuyong.github.com/"/>
-  <updated>2017-01-09T18:22:34.390Z</updated>
+  <updated>2017-03-15T07:48:44.000Z</updated>
   <id>http://zhuyong.github.com/</id>
   
   <author>
@@ -16,329 +16,26 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>java socket编程-多任务处理</title>
-    <link href="http://zhuyong.github.com/2013/08/22/java-socket-part_3/"/>
-    <id>http://zhuyong.github.com/2013/08/22/java-socket-part_3/</id>
-    <published>2013-08-22T13:35:56.000Z</published>
-    <updated>2017-01-09T18:22:34.390Z</updated>
+    <title>React技术栈</title>
+    <link href="http://zhuyong.github.com/2017/03/15/react_technologe_stack/"/>
+    <id>http://zhuyong.github.com/2017/03/15/react_technologe_stack/</id>
+    <published>2017-03-15T07:10:48.000Z</published>
+    <updated>2017-03-15T07:48:44.000Z</updated>
     
-    <content type="html"><![CDATA[<p>####多任务处理</p>
-<ul>
-<li>一客户一线程 （thread-per-client）-</li>
-<li>线程池（thread-pool）</li>
-<li>多接收者（广播、多播）<a id="more"></a>
-#####Java多线程<br>1) 继承 Thread 类，只适用于没有继承其他类的类； </li>
-</ul>
-<p>2) 实现Runnable接口的类;</p>
-<p>注：新线程创建后并不立即执行，而是等到其start()方法被调用。<br>    当Thread对象的start()方法被调用时，Java虚拟机将一个新的线程中执行对象的run()方法，从而实现与其他任务并行执行。 </p>
-<p>#####一客户一线程 </p>
-<p>#####线程池<br>每个新线程都会消耗系统资源：创建一个线程将占用CPU周期，而且每个线程都有自己的数据结构，也要消耗系统内存。</p>
-<p>使用线程池，通过限制总线程数并重复使用线程可以避免上面的问题。与每个连接创建一个新的线程不同，服务器在启动时创建一个由固定数量组成的线程池。 </p>
-<p>系统管理调用：Executor接口 </p>
-<p>ExecutorService接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Executor service = Executors.newFixedThreadPool(threadPoolSize);</div><div class="line">Executor service = Executors.newSingleThreadExecutor();</div></pre></td></tr></table></figure>
-<p>#####阻塞和超时<br>Socket的I/O调用可能会因为多种原因而阻塞。</p>
-<p>调用一个已经阻塞的方法将使应用程序停止（并使运行它的线程无效）。<br>1.accetp(), read() 和receiver()<br>  对于这些方法，可以使用Socket类、ServerSocket类和DatagramSocket类的 setSoTimeout()方法，设置器阻塞的最长时间（毫秒）。<br>  对于Socket实例，在调用read()方法前，还可以使用该套接字的InputStream的avaiable()方法来检测是否有可读的数据。 </p>
-<p>2.连接和写数据</p>
-<p>Socket类的构造函数会尝试根据参数中指定的主机和端口来建立连接，并阻塞等待，直到连接成功建立或发生系统定义的超时。<br>  而系统定义的超时时间很长，Java又没有提供任何缩短它的方法。</p>
-<p> <strong>解决办法</strong>：</p>
-<p>使用Socket类的无参数构造函数，它返回的是一个没有建立连接的Socket实例，需要建立连接时，调用该实例的connect()方法，并指定一个远程终端盒超时时间（毫秒）.</p>
-<p>  write()方法 调用也会阻塞等待，直到最后一个字节成功写入到TCP实现的本地缓存中。 </p>
-<p>#####多接收者<br>以单播（unicast）的方式发送信息给多个接收者，效率可能非常低，因为同样的数据发送了多次，在一个网络连接上单播同一数据的多个副本非常浪费带宽。<br>实际上，如果以固定频率发送数据，网络连接带宽就已经限制了其锁支持的接收者数量。<br>例如：如果视频服务器以1Mbps的速率发送数据流，而其网络连接速率是3Mbps（良好的连接速率），那么该连接最多只能同时支持3个用户。</p>
-<p>网络本身提供了一个更有效使用带宽的方法，将复制数据包的工作交个网络来做，而不是发送者负责。</p>
-<p><strong>广播（broadcast）</strong>、<strong>多播(multicast)</strong>。</p>
-<p>#####多播<br>IPv4多播地址范围：224.0.0.0 ~ 239.255.255.255 </p>
-<p>Java中多播应用程序主要是通过MulticastSock实例进行通信，它是一个DatagramSocket的一个子类。<br>重点需要理解的是，一个MulticastSocket实例实际上就是一个UDP套接字（DatagramSocket），其包含了一些额外的可以控制的多播特定属性。 </p>
-<p>多播数据报文实际上可以通过DatagramSocket中发送，只需要简单地指定一个多播地址。 </p>
-<p>不过MuiltcastSocket还有一些DatagramSocket没有的能力： </p>
-<p>（1）允许指定数据报文的TTL</p>
-<p>（2）允许指定和改变通过哪个接口将数据报文发送到组（接口由其互联网地址确定）。</p>
-<p>注：一个多播消息接收者必须使用MulticastSocket来接收数据，因为它需要用到MulticastSocket加入组的功能。 </p>
-<p>MulticastSocket 创建：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MulticastSocket()</div><div class="line">MulticastSocket(int localPort)</div><div class="line">MulticastSocket(SocketAddress bindaddr)</div></pre></td></tr></table></figure></p>
-<p>MulitcastSocket 组管理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">void joinGroup(InetAddress groupAddress);</div><div class="line">void joinGroup(SocketAddress mcastaddr, NetworkInterface netIf);</div><div class="line">void leaveGroup(InetAddress groupAddress);</div><div class="line">void leaveGroup(SocketAddress mcastaddr,NetworkInterface netIf);</div></pre></td></tr></table></figure></p>
-<p>MulticastSocket 设置/获取多播选项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">int getTimeToLive()</div><div class="line">void setTimeToLive(int ttl)</div><div class="line">boolean getLoopbackMode()</div><div class="line">void setLoopbackMode(boolean disable)</div><div class="line">InetAddress getInterface()</div><div class="line">NetworkInterface getNetworkInterface()</div><div class="line">void setInterface(InetAddress inf)</div><div class="line">void setNetworkInterface(NetworkInterface netIf)</div></pre></td></tr></table></figure></p>
-<p>#####控制默认行为<br>TCP/IP协议的开发者用了大量的时间来考虑协议的默认行为，以满足大部分应用程序的需要。对于大多数应用程序来说，这些设计都非常适合。<br>如默认情况下，DatagramSocket类的receive()方法将无限期地阻塞等待一个数据报文，某些情况下，并不希望这样，所以，可同通过UDP套接字提供的接口改变协议的默认行为，如设置超时时间:setSoTimeout();</p>
-<p>######Keep-Alive<br>默认情况下，keep-alive机制是关闭的，通过setKeepAlive()方法将其设置为true来开启keep-alive机制。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">boolean getKeepAlive();</div><div class="line">void setKeepAlive(boolean on);</div></pre></td></tr></table></figure></p>
-<p>#####发送和接收缓存区的大小<br>一旦创建了一个Socket或DatagramSocket实例，操作系统就必须为其分配缓存区以存放接收的和要发送的数据。<br>Socket,DatagramSocket: 设置和获取发送接收缓存区大小<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">int getReceiveBufferSize();</div><div class="line">void setReceiveBufferSize(int size);</div><div class="line">int getSendBufferSize();</div><div class="line">void setSendBufferSize(int size);</div></pre></td></tr></table></figure></p>
-<p>Socket,ServerSocket,DatagramSocket： 设置/获取I/O超时时间<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int getSoTimeout();</div><div class="line">void setSoTimeout(int timeout);</div></pre></td></tr></table></figure></p>
-<p>Socket,ServerSocket,DatagramSocket: 设置/获取地址重用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">boolean getReuseAddress()</div><div class="line">void setReuseAddress(boolean on);</div></pre></td></tr></table></figure></p>
-<p>Socket: 设置/获取TCP缓冲延迟<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">boolean getTCPNoDelay();</div><div class="line">void setTcpNoDelay(boolean on);</div></pre></td></tr></table></figure></p>
-<p>Socket:在close()方法停留<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">int getSoLinger();</div><div class="line">void setSoLinger(boolean on, int linger);</div></pre></td></tr></table></figure></p>
-<p>#####Reference<br>1.Java TCP/IP Socket编程</p>
+    <content type="html"><![CDATA[<p>跟着React技术栈去学习。</p>
+<a id="more"></a> 
+<p><img src="http://www.ruanyifeng.com/blogimg/asset/2016/bg2016092301.png" alt="React Stack"></p>
+<p><a href="http://www.ruanyifeng.com/blog/2016/09/react-technology-stack.html" target="_blank" rel="external">React技术栈教程</a></p>
 ]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;####多任务处理&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;一客户一线程 （thread-per-client）-&lt;/li&gt;
-&lt;li&gt;线程池（thread-pool）&lt;/li&gt;
-&lt;li&gt;多接收者（广播、多播）
+      &lt;p&gt;跟着React技术栈去学习。&lt;/p&gt;
     
     </summary>
     
     
-      <category term="java_socket" scheme="http://zhuyong.github.com/tags/java-socket/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java socket编程-数据的发送和接收</title>
-    <link href="http://zhuyong.github.com/2013/08/20/java-socket-part_2/"/>
-    <id>http://zhuyong.github.com/2013/08/20/java-socket-part_2/</id>
-    <published>2013-08-20T13:58:42.000Z</published>
-    <updated>2017-01-09T18:22:34.390Z</updated>
-    
-    <content type="html"><![CDATA[<p>####数据的发送和接收<br>TCP/IP协议是以字节的方式传输用户数据的，并没有对其进行检查和修改。<br>TCP/IP协议唯一约束的是，信息必须在块（chunks）中发送和接收，而块的长度必须是8的倍数，因此，我们可以认为在TCP/IP协议中传输的信息是字节序列。<br>鉴于此，我们可以进一步把信息看作是数字序列或数组，每个数字表示的大小是0~255，即00000000~11111111。<br><a id="more"></a></p>
-<p>#####简单数据类型是如何通过套接字进行发送和接收的？<br>传输信息时可以通过套接字将字节信息写入一个OutputStream实例中，或将其封装进一个DatagramPacket实例中，然后进行发送。<br>但是这些操作所能处理的唯一数据类型是字节或字节数组。 </p>
-<p>#####整型类型<br>对于基本类型:整型，发送端和接收端需要约定的几个方面： </p>
-<ol>
-<li>要传输的整型字节的大小(Size),即该类型所需要的字节长度；<br>如32位机器上,byte(1字节),short（2字节）,int(4字节)，long(8字节)； </li>
-<li>对于超过一个字节的数据类型，我们必须需要知道字节序列发送的顺序:从左到右（big-endian:高位–&gt;低位），从右到左（little-endian:低位–&gt;高位）。 </li>
-<li>所传输的数值是有符号的还是无符号的；java中的四种基本整型都是有符号的，它们的值以二进制补码的方式存储。 </li>
-</ol>
-<p><strong>Code:</strong>怎样将消息的正确值存入字节数组？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public static void main(String[] args) &#123;</div><div class="line">    int iValue = 8;</div><div class="line">    short sValue = 1;</div><div class="line">    ByteArrayOutputStream buf = new ByteArrayOutputStream();</div><div class="line">    DataOutputStream out = new DataOutputStream(buf);</div><div class="line">    try &#123;</div><div class="line">        // 输出流</div><div class="line">        out.writeInt(iValue);</div><div class="line">        out.writeShort(sValue);</div><div class="line">        out.flush();</div><div class="line">        // 使用字节数组中转</div><div class="line">        byte[] msg = buf.toByteArray();</div><div class="line">        // 输入流</div><div class="line">        ByteArrayInputStream inbuf = new ByteArrayInputStream(msg);</div><div class="line">        DataInputStream din = new DataInputStream(inbuf);</div><div class="line">        // 按顺序读出</div><div class="line">        int va = din.readInt();</div><div class="line">        short vb = din.readShort();</div><div class="line">        System.out.println(&quot;int =&quot; + va + &quot;,short=&quot; + vb);</div><div class="line">    &#125; catch (IOException e) &#123;</div><div class="line">        e.printStackTrace();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>#####字符串和文本<br>每个String实例都对应一个字符序列（数组,char[]类型）；<br>一个字符在Java内部表示为一个整数，在一组符号和一组整数之间的映射称为编码字符集。 </p>
-<p>Java是使用的Unicode的国际标准编码字符集来表示char型和String型值。Unicode字符集将符号映射到整数0~65535之间，更适用于国际化程序。 </p>
-<ol>
-<li>发送者和接收者必须在符号与整数的映射方式上达成共识，才能使用文本信息进行通信。<br>对于每个整数值都比255小的一小组字符，不需要其他信息，因为其每个字符都能够作为一个单独的字节进行编码。<br>对于可能超过一个字节的大整数的编码方式，就有多种方式在线路上对其进行编码，因此发送者和接收者需要统一编码方案。<br>编码字符集和字符的编码方案结合起来称为字符集。<br>Code:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">String test = &quot;Test!&quot;;</div><div class="line">byte[] strBytes = test.getBytes();  // Default: UTF-8        </div><div class="line">byte[] strBytes2 = test.getBytes(&quot;UTF-16BE&quot;);    </div><div class="line">System.out.println(&quot;test utf-8:&quot; + new String(strBytes) + </div><div class="line">                      &quot;,test utf-16be:&quot; + new String(strBytes2));</div><div class="line">``` </div><div class="line">#####位操作，布尔值编码 </div><div class="line">#####组合输入、输出流 </div><div class="line"></div><div class="line">#####成帧和解析，数据的接收 </div><div class="line">接收者如何能够准确的找到消息的结束位置？ </div><div class="line">1. 基于定界符（Delimiter-based）:消息的结束由一个唯一的标记（unique marker）指出，即发送者在传输完数据后显式添加一个特殊字节序列。这个特殊标记不能再传输的数据中出现。  </div><div class="line">   基于定界符的方法通常用在以文本方式编码的消息中：定义一个特殊的字符或字符串来标识消息的结束。</div><div class="line">   接收者只需要简单地扫描信息（以字节的方式）来查找定界符序列，并将定界符前面的字符串返回。  </div><div class="line">   缺点：发送信息中不能含有定界符，否则接收者将提前认为消息已结束。</div><div class="line">   解决办法：填充技术（stuffing）：对消息中出现的定界符进行修改，从而使接收者不将其识别为定界符。但是该办法需要发送者和接收者都扫描发送消息，以便对消息中的定界符进行修改和恢复。 </div><div class="line">2. 显式长度（Explicit length）:在变长字段或消息前附加一个固定大小的字段，用来指示该字段或消息中包含了多少字节。 </div><div class="line"></div><div class="line">TODO：</div><div class="line">&lt;strong&gt;Code：&lt;/strong&gt; 实现基于定界符的成帧方法 </div><div class="line">Framer.java</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>public interface Framer {</p>
-<pre><code>/*
- * Add frame message,Output info to specified OutputStream
- * 
- * */
-void frameMsg(byte[] message, OutputStream out ) throws IOException; 
-
-/*
- * Return current msg before   delimiter  and get next frame message
- * 
- * */
-byte[] nextMsg() throws IOException;
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DelimFramer.java</div></pre></td></tr></table></figure></p>
-<p>public class DelimFramer implements Framer{<br>    private InputStream in; // data source</p>
-<pre><code>private static final byte DELIMTER = &apos;\n&apos;;  //  message delimter
-
-public DelimFramer(InputStream in) {
-    this.in = in;
-}
-
-@Override
-public void frameMsg(byte[] message, OutputStream out) throws IOException {
-    // Ensure that message doesn&apos;t contain DELIMTER
-    for (byte b : message ){
-        if (b == DELIMTER){
-            throw new IOException(&quot;Message contains delimiter.&quot;);
-        }
-    }
-    out.write(message);
-    out.write(DELIMTER);
-    out.flush();
-}
-@Override
-public byte[] nextMsg() throws IOException {
-    ByteArrayOutputStream messageBuffer = new ByteArrayOutputStream();
-    int nextByte ; 
-    // fetch bytes until find DELIMTER
-    while ((nextByte = in.read()) != DELIMTER ){
-        if (nextByte == -1){
-            System.out.println(&quot;size:&quot; + messageBuffer.size());
-            if(messageBuffer.size() == 0 ){
-                return null;
-            }
-            else{
-                throw new EOFException(&quot;Non-empty message without delimter.&quot;);
-            }
-        }
-        messageBuffer.write(nextByte);
-    }
-    return messageBuffer.toByteArray();
-}
-
-public static void main(String[] args) {
-    String s = &quot;aaa&quot;;
-    byte[] b = s.getBytes();
-
-    ByteArrayInputStream in = new ByteArrayInputStream(b);
-    DelimFramer dFramer = new DelimFramer(in);
-
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    try {
-        dFramer.frameMsg(b, out);
-        dFramer.nextMsg();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">基于长度成帧</div></pre></td></tr></table></figure></p>
-<p>public class LengthFramer implements Framer {<br>    public static final int MAX_MESSAGE_LENGTH = 65535;<br>    public static final int BYTE_MASK = 0xff;<br>    public static final int SHORT_MASK = 0xffff;<br>    public static final int BYTE_SHIFT = 8;<br>    DataInputStream in;<br>    public LengthFramer(InputStream in) {<br>        this.in = new DataInputStream(in);<br>    }<br>    @Override<br>    public void frameMsg(byte[] message, OutputStream out) throws IOException {<br>        if (message.length &gt; MAX_MESSAGE_LENGTH) {<br>            throw new IOException(“message is too long.”);<br>        }<br>        out.write((message.length &gt;&gt; BYTE_SHIFT) &amp; BYTE_MASK);<br>        out.write(message.length &amp; BYTE_MASK);<br>        out.write(message);<br>        out.flush();<br>    }<br>    @Override<br>    public byte[] nextMsg() throws IOException {<br>        int length;<br>        //<br>        length = in.readUnsignedShort();<br>        byte[] msg = new byte[length];<br>        in.readFully(msg);<br>        return msg;<br>    }<br>    public static void main(String[] args) {<br>        String str = “abc”;<br>        byte[] buf = str.getBytes();<br>        ByteArrayInputStream in = new ByteArrayInputStream(str.getBytes());<br>        DataInputStream input = new DataInputStream(in);<br>        LengthFramer framer = new LengthFramer(input);<br>        ByteArrayOutputStream out = new ByteArrayOutputStream();<br>        try {<br>            // framer msg.<br>            framer.frameMsg(buf, out);<br>            framer.nextMsg();<br>        } catch (IOException e) {<br>            e.printStackTrace();<br>        }<br>    }<br>}<br>```</p>
-<p>#####构建和解析协议<br>这部分内容主要是介绍了对在实现别人定义的协议时可能用到的技术。</p>
-<p>#####Reference<br>1.Java TCP/IP Socket编程</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;####数据的发送和接收&lt;br&gt;TCP/IP协议是以字节的方式传输用户数据的，并没有对其进行检查和修改。&lt;br&gt;TCP/IP协议唯一约束的是，信息必须在块（chunks）中发送和接收，而块的长度必须是8的倍数，因此，我们可以认为在TCP/IP协议中传输的信息是字节序列。&lt;br&gt;鉴于此，我们可以进一步把信息看作是数字序列或数组，每个数字表示的大小是0~255，即00000000~11111111。&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="java_socket" scheme="http://zhuyong.github.com/tags/java-socket/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>TCP/IP协议（1）-概要</title>
-    <link href="http://zhuyong.github.com/2013/08/20/tcpip-part1/"/>
-    <id>http://zhuyong.github.com/2013/08/20/tcpip-part1/</id>
-    <published>2013-08-19T16:28:45.000Z</published>
-    <updated>2017-01-09T18:22:34.390Z</updated>
-    
-    <content type="html"><![CDATA[<p>####协议、标准<br><strong>协议</strong>：一组控制数据通信的规则. </p>
-<p>协议的三要素：语法 syntax、语义 semantics、时序 Timing </p>
-<p><strong>标准</strong>： 一致同意的规则</p>
-<p>标准的种类：  </p>
-<p>事实上的标准de-factor   — 实际或习惯</p>
-<p>合法标准 de-jury        — 法律、法规</p>
-<p>####OSI模型和TCP/IP协议族</p>
-<ul>
-<li>OSI参考模型</li>
-<li>OSI模型的层次功能</li>
-<li>TCP/IP协议族</li>
-<li>编址</li>
-<li>TCP/IP的版本<a id="more"></a>
-</li>
-</ul>
-<p>#####ISO标准<br>Open System Interconnection,开放系统互连<br>Reference Model,<strong>参考模型</strong></p>
-<p>目的：使两个不同的系统能够通信，不需要改变底层的硬件或软件逻辑。  </p>
-<p>ISO是一个组织，OSI是一个模型。<br>OSI不是协议，是网络体系结构的<strong>概念模型</strong>。 </p>
-<p>#####OSI层次体系结构(7层)<br>应用支持层(软件): Application、Presentation、Session、<br>Transport、<br>网络支持层（软/硬件）Network、Data Link、Physical；</p>
-<p>#####对等层通信（Peer-to-Peer Communication）<br><strong>服务</strong>：下层（提供者）提供给上层（使用者）的操作(功能)。<br>注：服务只能存在于相邻层之间。</p>
-<p><strong>接口</strong>：相邻层之间通过接口进行交换操作。 </p>
-<p><strong>对等层（peer-layer）</strong></p>
-<p><strong>对等实体</strong>：在不同系统上，同一层的实体. </p>
-<p><strong>对等层协议（Peer-to-Peer Protocol）</strong>: 对等层之间通信的规则。</p>
-<p>每一层可以同时存在多个实体。<br>–&gt;  存在通信关系的对等层实体才是对等实体。</p>
-<p>每一层可以同时存在多个协议。<br>–&gt; 协议是对等实体间的通信规则。 </p>
-<p>#####数据通信-封装<br><strong>PDU</strong>：Protocol Data Unit,协议数据单元</p>
-<p>数据链路层之上，下层数据总是将上层数据+文件头，而数据链路层，不光增加了头部，还增加了尾部，因为物理层传输可能存在差错，所以需要进行校验。</p>
-<p>对等层的PDU的专有名词： </p>
-<p><strong>帧（Frame）</strong>      -  数据链路层的PDU </p>
-<p><strong>分组（Packet）</strong>   -  网络层的PDU </p>
-<p><strong>段（Segement）</strong>   - 传输层的PDU </p>
-<p><strong>数据（Data）</strong>     - 应用层的PDU </p>
-<p><strong>比特流</strong>           - 物理层</p>
-<p>#####OSI模型的层次功能<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Application: Network processes to applications. </div><div class="line">Presentation: Data representation. </div><div class="line">Session: Inter-host communication. </div><div class="line">Transport: End-to-end connection. </div><div class="line">Network: Addressing and best path. </div><div class="line">Data Link: Access to media. </div><div class="line">Physical: Binary transmission.</div></pre></td></tr></table></figure></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;####协议、标准&lt;br&gt;&lt;strong&gt;协议&lt;/strong&gt;：一组控制数据通信的规则. &lt;/p&gt;
-&lt;p&gt;协议的三要素：语法 syntax、语义 semantics、时序 Timing &lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;标准&lt;/strong&gt;： 一致同意的规则&lt;/p&gt;
-&lt;p&gt;标准的种类：  &lt;/p&gt;
-&lt;p&gt;事实上的标准de-factor   — 实际或习惯&lt;/p&gt;
-&lt;p&gt;合法标准 de-jury        — 法律、法规&lt;/p&gt;
-&lt;p&gt;####OSI模型和TCP/IP协议族&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;OSI参考模型&lt;/li&gt;
-&lt;li&gt;OSI模型的层次功能&lt;/li&gt;
-&lt;li&gt;TCP/IP协议族&lt;/li&gt;
-&lt;li&gt;编址&lt;/li&gt;
-&lt;li&gt;TCP/IP的版本
-    
-    </summary>
-    
-    
-      <category term="tcp/ip" scheme="http://zhuyong.github.com/tags/tcp-ip/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>java socket编程-基本概念</title>
-    <link href="http://zhuyong.github.com/2013/08/19/java-socket-part_1/"/>
-    <id>http://zhuyong.github.com/2013/08/19/java-socket-part_1/</id>
-    <published>2013-08-19T08:21:47.000Z</published>
-    <updated>2017-01-09T18:22:34.390Z</updated>
-    
-    <content type="html"><![CDATA[<h5 id="基本概念及套接字"><a href="#基本概念及套接字" class="headerlink" title="基本概念及套接字"></a>基本概念及套接字</h5><ul>
-<li>基本概念</li>
-<li>TCP Socket</li>
-<li>UDP Socket <a id="more"></a> 
-</li>
-</ul>
-<p>在学习套接字细节之前，有必要了解计算机网络和通信协议的整体框架，这样更便于了解，套接字是使用在什么地方的。<br>程序是如何通过网络进行通信的?<br>Java语言从一开始就是为了人们使用互联网而设计的，它为实现程序间相互通信提供了许多有用的抽象程序接口（Application Programming Interface）,这类应用程序接口称为套接字(Socket)。</p>
-<p>#####基本概念<br><strong>信息</strong>（Information）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">信息是指由程序创建和解释的字节序列，在计算机网络环境中，这些字节序列被称为分组报文（packets）.</div><div class="line">一组报文包括了网络用来完成工作的控制信息，有时还包括一些用户数据。</div></pre></td></tr></table></figure></p>
-<p><strong>协议</strong>（protocol）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">相当于是相互通信的程序间达成的一种约定，它规定了分组报文的交换方式合它们包含的意义。</div><div class="line">一组协议规定了分组报文的结构以及怎样对报文中所包含的信息进行解析。</div><div class="line">设计一组协议，通常是为了在一定约束条件下解决某一特定的问题。</div></pre></td></tr></table></figure></p>
-<p><strong>TCP/IP协议族</strong> 主要协议有IP协议、TCP协议、UDP协议。<br>在TCP/IP协议族中，底层由基础的通信信道构成，这些信道由网络层使用。而网络层则完成将分组报文传输到它们目的地的工作。 </p>
-<p><strong>IP协议</strong>提供了一种数据报服务：每组分组报文都由网络独立处理和分发，为实现这个功能，每个IP报文必须包含一个保存其目的地址的字段。<br>但IP协议只是一个“尽力而为”（best-effort）的协议：它试图分发每一个分组报文，但在网络传输过程中，偶尔也会发生丢失报文，是报文顺序被打乱，或重复发送报文的情况。 </p>
-<p>IP协议层之上为传输层，它提供了两种选择的协议<strong>TCP协议</strong>和<strong>UDP协议</strong>。<br>两种协议都建立在IP层所提供的服务基础之上，但根据应用程序协议的不同需求，它们使用不同的方法来实现不同方式的传输。</p>
-<p>TCP协议和IP协议有一个共同的功能，即寻址。 </p>
-<p>IP协议只是将分组报文分发到不同的主机，还需要更细粒度的寻址将报文发送到主机中指定的应用程序，因为同一主机上可能有多个应用程序在使用网络。<br>TCP协议和IP协议使用的地址叫做端口号（port number）,用来区分同一主机中的不同应用程序。 </p>
-<p>TCP协议能够检测和恢复IP层提供的主机到主机的信道中可能发生的报文丢失、重复及其他错误。 </p>
-<p>TCP协议提供了一个可信赖的字节流（reliable byte-stream）信道，这样应用程序就不需要再处理上述问题。 </p>
-<p>在TCP/IP协议中，由两部分信息来定位一个指定的程序：互联网地址（Internet address)和端口号（port number）.<br>其中互联网地址由IP协议使用，而附加的端口地址信息由传输协议对其进行解析。  </p>
-<p><strong>回环地址</strong>（loopback address），该地址总是被分配一个特殊的回环接口，回环接口是一种虚拟设备，它的功能只是简单的将发送给它的报文直接回发给发送者。  </p>
-<p><strong>基本套接字</strong><br>getNetworkInterface():获取一个接口列表<br><strong>注：</strong><br>（1）这个列表包含主机的所有接口，包括不能向网络中其他主机发送或接收消息的虚拟回环接口。<br>（2）同样，列表中可能还包括外部不可到达本地的链接地址。<br>（3）这些列表是无序的，所以不能简单的认为第一个接口的第一个地址就可以访问网络，而需要通过InetAddress类的属性检查方法，来判断一个地址是不是回环地址等。<br>getInetAddress():获取每个接口的所有地址<br><strong>TCP套接字</strong><br>Java为TCP协议提供了两个类：Socket类和ServerSocket类。<br>一个Socket实例代表了TCP连接的一端，一个TCP连接时一条抽象的双向信道，两端分别由IP地址和端口号确定。<br><strong>Socket创建</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Socket(InetAddress remoteAddr, int remotePort);</div><div class="line">Socket(String remoteHost, int remotePort);</div><div class="line">Socket(InetAddress remoteAddr, int remotePort,InetAddress localAddr, int localPort);</div><div class="line">Socket(String remoteHost,int remotePort, InetAddress localAddr, int localPort);</div><div class="line">Socket();</div></pre></td></tr></table></figure></p>
-<p><strong>Socket操作</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">void connect(SocketAddress destination);</div><div class="line">void connect(SocketAddress destination, int timeout);</div><div class="line">InputStream getInputStreas();</div><div class="line">OutputStream getOutputStream();</div><div class="line">void close();</div><div class="line">void shutdownInput();</div><div class="line">void shutdownOutput();</div><div class="line">Socket 获取/检测属性</div><div class="line">InetAddress getInetAddress();</div><div class="line">int getPort();</div><div class="line">InetAddress getLocalAddress();</div><div class="line">int getLocalPort();</div><div class="line">SocketAddress getRemoteSocket();</div><div class="line">SocketAddress getLocalSocketAddress();</div><div class="line">InetSocketAddress:创建与访问</div><div class="line">InetSocketAddress(InetAddress addr, int port);</div><div class="line">InetSocketAddress(int port);</div><div class="line">InetSocketAddress(String hostname,int port);</div><div class="line">static InetSocketAddress createUnresolved(String host,int port);</div><div class="line">boolean isUnresolved();</div><div class="line">InetAddress getAddress();</div><div class="line">int getPort();</div><div class="line">String getHostName();</div><div class="line">String toString();</div></pre></td></tr></table></figure></p>
-<p><strong>TCP服务器端</strong></p>
-<ol>
-<li>创建一个ServerSocket实例并指定本地端口，此套接字的功能是侦听该指定端口收到的连接。</li>
-<li>重复执行：<br>调用ServerSocket的accept()方法以获取下一个客户端连接。基于新建立的客户端连接，创建一个Socket实例，并由accept()方法返回。<br>使用所返回的Socket实例的InputStream和OutputStream与客户端进行通信。<br>通信完成后，使用Socket类</li>
-</ol>
-<p><strong>UDP套接字</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">DatagramSocket </div><div class="line">public DatagramSocket(int aPort)；</div><div class="line">public DatagramSocket(int aPort, InetAddress addr) ；</div><div class="line">DatagramPacket</div><div class="line">public DatagramPacket(byte[] data, int length)；</div><div class="line">public DatagramPacket(byte[] data, int offset, int length)；</div><div class="line">public DatagramPacket(byte[] data, int offset, int length, InetAddress host, int aPort)；</div><div class="line">public DatagramPacket(byte[] data, int length, InetAddress host, int port)；</div><div class="line">send(DatagramPacket packet);</div><div class="line">receive(DatagramPacket packet);</div></pre></td></tr></table></figure></p>
-<p><strong>Reference</strong><br>1.Java TCP/IP Socket编程</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h5 id=&quot;基本概念及套接字&quot;&gt;&lt;a href=&quot;#基本概念及套接字&quot; class=&quot;headerlink&quot; title=&quot;基本概念及套接字&quot;&gt;&lt;/a&gt;基本概念及套接字&lt;/h5&gt;&lt;ul&gt;
-&lt;li&gt;基本概念&lt;/li&gt;
-&lt;li&gt;TCP Socket&lt;/li&gt;
-&lt;li&gt;UDP Socket
-    
-    </summary>
-    
-    
-      <category term="java_socket" scheme="http://zhuyong.github.com/tags/java-socket/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>about hexo</title>
-    <link href="http://zhuyong.github.com/2013/08/18/about-hexo/"/>
-    <id>http://zhuyong.github.com/2013/08/18/about-hexo/</id>
-    <published>2013-08-18T09:10:48.000Z</published>
-    <updated>2017-01-12T19:23:58.144Z</updated>
-    
-    <content type="html"><![CDATA[<p>从Octopress 换到Hexo，确实速度提升不少。 </p>
-<h4 id="关于Hexo"><a href="#关于Hexo" class="headerlink" title="关于Hexo"></a>关于Hexo</h4><p><a href="http://zespia.tw/hexo/" target="_blank" rel="external">http://zespia.tw/hexo/</a><br><a id="more"></a> </p>
-<h4 id="遇到的几个问题："><a href="#遇到的几个问题：" class="headerlink" title="遇到的几个问题："></a>遇到的几个问题：</h4><h4 id="Issues"><a href="#Issues" class="headerlink" title="Issues"></a>Issues</h4><p><a href="https://github.com/tommy351/hexo/issues?direction=asc&amp;sort=long-running&amp;state=closed" title="issues" target="_blank" rel="external">Issue List</a>  </p>
-<ul>
-<li><p>hexo 命令不起作用 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">language: zh-CN, 属性名称冒号后面必须要有一个空格，否则也不报错...</div></pre></td></tr></table></figure>
-</li>
-<li><p>deploy struck. </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">换成SSH path可以解决了。 </div><div class="line">HTTP:https://github.com/&lt;username&gt;/&lt;repo_name&gt;.git </div><div class="line">SSH: git@github.com:&lt;username&gt;/&lt;repo_name&gt;.git</div></pre></td></tr></table></figure>
-</li>
-<li><p>deploy fatal.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">fatoal:Not a git repository &lt;or any of the parent directories&gt;: .git</div><div class="line">&gt;&gt;要加缩进，Tab</div><div class="line">deploy:</div><div class="line">    type: github</div><div class="line">    repository: https://github.com/zhuyong/log.git </div><div class="line">    branch: gh-pages</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>####autoThumbnailImage Test<br><img src="http://image.lxway.com/upload/3/22/322ecfea11e750a7caadf37c3842e283_thumb.png" alt=""></p>
-<p>####Gallery Test</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;从Octopress 换到Hexo，确实速度提升不少。 &lt;/p&gt;
-&lt;h4 id=&quot;关于Hexo&quot;&gt;&lt;a href=&quot;#关于Hexo&quot; class=&quot;headerlink&quot; title=&quot;关于Hexo&quot;&gt;&lt;/a&gt;关于Hexo&lt;/h4&gt;&lt;p&gt;&lt;a href=&quot;http://zespia.tw/hexo/&quot;&gt;http://zespia.tw/hexo/&lt;/a&gt;&lt;br&gt;
-    
-    </summary>
-    
-    
-      <category term="hexo" scheme="http://zhuyong.github.com/tags/hexo/"/>
+      <category term="react" scheme="http://zhuyong.github.com/tags/react/"/>
     
   </entry>
   
